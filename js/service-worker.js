@@ -3,12 +3,12 @@
 bilibili_video_urls = []        
 //配置
 praise_switch = false
-interval = 5  //小时
 praise_num = 20  //每次点赞的数量
 keyword = "我的世界"  //搜索页的关键词
+const praise_hours = [7, 12, 20]
 
 //上次批量点赞的时间
-last_praise_time = 0
+last_praise_hour = 12
 
 //拉取配置
 // chrome.runtime.sendMessage({"cmd": "GET_config"}, res=>{
@@ -19,17 +19,15 @@ last_praise_time = 0
 function parse_config(config)
 {
     praise_switch = config["praise_switch"]
-    interval = config["interval"]  //小时
     praise_num = config["praise_num"]  //每次点赞的数量
     keyword = config["keyword"]  //搜索页的关键词
-    console.log(`after parse config,praise_switch:${praise_switch}, interval:${interval}, praise_num:${praise_num}, keyword:${keyword}`)
+    console.log(`after parse config,praise_switch:${praise_switch},  praise_num:${praise_num}, keyword:${keyword}`)
 }
 
 function show_config()
 {
-    console.log(`config,{praise_switch:${praise_switch}, interval:${interval}, praise_num:${praise_num}, keyword:${keyword}}`)
-    last_praise_time_str = new Date(last_praise_time * 1000)
-    console.log(`last_praise_time: ${last_praise_time_str}`)
+    console.log(`config,{praise_switch:${praise_switch},  praise_num:${praise_num}, keyword:${keyword}}`)
+    console.log(`last_praise_hour: ${last_praise_hour}`)
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -86,6 +84,29 @@ function praise_one_video()
     });
 }
 
+function is_need_praise()
+{
+    //检查是否需要开始拉取一批视频列表
+    let now_hour = (new Date()).getHours()
+
+    if (now_hour == last_praise_hour)
+    {
+        console.log(`now_hour is equal to last_praise_hour.last_praise_Hour:${last_praise_hour}`)
+        return false;
+    }
+    for (i in praise_hours)
+    {
+        if (praise_hours[i] == now_hour)
+        {
+            console.log(`is_need_praise is true.now_hour:${now_hour}, last_praise_hour:${last_praise_hour}, i:${i}`)
+            last_praise_hour = now_hour
+            return true;
+        }
+    }
+    return false;
+}
+
+
 //定时器，每隔0.4*60 = 24秒执行一次
 chrome.alarms.create("background-periodic-alarm", {delayInMinutes: 0.1, periodInMinutes: 0.4});
 
@@ -108,23 +129,13 @@ chrome.alarms.onAlarm.addListener((alarm)=>{
         console.log(`onAlarm.bilibili_video_urls is empty...`)
     }
 
-    //检查是否需要开始拉取一批视频列表
-    let now_hour = (new Date()).getHours()
-    if (now_hour >= 0 && now_hour <= 7)
+    //检查是否需要开始点赞
+    if (is_need_praise())
     {
-        //早上0点到7点不点赞
+        console.log("start to get_video_list")
+        get_video_list_by_search()
         return;
     }
-
-    let now_timestamp = get_now_timestamp()
-    if (now_timestamp - last_praise_time >= interval * 3600)
-    {
-        console.log(`start to get_video_list_by_search.now_timestamp:${now_timestamp}, last_praise_time:${last_praise_time}, interval:${interval}`)
-        last_praise_time = now_timestamp
-        get_video_list_by_search()
-    }
-
-
     // chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
 	// 	chrome.tabs.sendMessage(tabs[0].id, msg);
 	// });
