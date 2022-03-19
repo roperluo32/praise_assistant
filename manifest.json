@@ -1,0 +1,28 @@
+{
+    "name": "自媒体好帮手",
+    "description": "自媒体好帮手",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+      "service_worker": "js/service-worker.js"
+    },
+    "content_scripts": [
+        {
+          "matches": [
+            "<all_urls>"
+          ],
+          "js": [
+            "js/jquery-3.5.1.js",
+            "js/content-script.js"
+          ]
+        }
+    ],
+    "permissions": [
+        "activeTab",
+        "alarms",
+        "storage"
+    ]
+  }
