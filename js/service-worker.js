@@ -29,7 +29,7 @@ function show_config()
 {
     console.log(`config,{praise_switch:${praise_switch}, interval:${interval}, praise_num:${praise_num}, keyword:${keyword}}`)
     last_praise_time_str = new Date(last_praise_time * 1000)
-    console.log(`last_praise_time: $(last_praise_time_str)}`)
+    console.log(`last_praise_time: ${last_praise_time_str}`)
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -119,7 +119,7 @@ chrome.alarms.onAlarm.addListener((alarm)=>{
     let now_timestamp = get_now_timestamp()
     if (now_timestamp - last_praise_time >= interval * 3600)
     {
-        console.log(`start to get_video_list_by_search.now_timestamp:{$now_timestamp}, last_praise_time:${last_praise_time}, interval:${interval}`)
+        console.log(`start to get_video_list_by_search.now_timestamp:${now_timestamp}, last_praise_time:${last_praise_time}, interval:${interval}`)
         last_praise_time = now_timestamp
         get_video_list_by_search()
     }

@@ -152,6 +152,7 @@ const praise_func = async ()=>{
             cmd: "CONTENT_register_bilibili_video_urls",
             urls: video_urls,
         }
+        console.log(`register_url_message: ${JSON.stringify(register_url_message)}`)
         chrome.runtime.sendMessage(register_url_message, res=>{
             console.log(`content recevive response: ${res}`)
         })
