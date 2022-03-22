@@ -10,7 +10,12 @@ function set_config() {
   config["praise_switch"] = document.getElementById('praise_switch').checked
   config["interval"] = document.getElementById('interval').value
   config["praise_num"] = document.getElementById('praise_num').value
-  config["keyword"] = document.getElementById('keyword').value
+  // config["keyword"] = document.getElementById('keyword').value
+  let keywordSelect = document.getElementById('keyword');
+  let ind = keywordSelect.selectedIndex;
+  console.log(`index:${ind}`)
+  config["keyword"] = keywordSelect.options[ind].value;
+
   console.log(`pop up init config:${JSON.stringify(config)}`)
 
   //发送配置变更通知

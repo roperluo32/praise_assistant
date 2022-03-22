@@ -54,7 +54,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse("background get config success")
             break;
         case "GET_config":
-            sendResponse({"praise_switch": praise_switch})
+            sendResponse({"praise_switch": praise_switch, "keyword": keyword})
             break;
     }
 });
@@ -111,7 +111,8 @@ function is_need_praise()
 chrome.alarms.create("background-periodic-alarm", {delayInMinutes: 0.1, periodInMinutes: 0.4});
 
 chrome.alarms.onAlarm.addListener((alarm)=>{
-    console.log(`backgourd onAlarm.alarm:${JSON.stringify(alarm)}`)
+
+    console.log(`backgourd onAlarm.praise_switch:${praise_switch}, keyword:${keyword}, last_praise_hour:${last_praise_hour}`)
     //检查开关
     if (false == praise_switch){
         console.log(`switch is off...`)
