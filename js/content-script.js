@@ -138,17 +138,17 @@ const praise_func = async ()=>{
         console.log("本页面是视频页面，开始点赞")
 
         //点赞
-        if ($(".video-toolbar-v1 .like").eq(0).hasClass('on') == false)   //还没被点过赞
+        if ($(".video-toolbar .like").eq(0).hasClass('on') == false)   //还没被点过赞
         {
-            $(".video-toolbar-v1 .like")[0].click()
+            $(".video-toolbar .like")[0].click()
         }
 
         //点击收藏
-        $(".video-toolbar-v1 .collect")[0].click()
+        $(".video-toolbar .collect")[0].click()
         console.log('start to sleep 2s')
         await sleep(2000)
         console.log('sleep over')
-        $(".collection-m-exp input[type=checkbox]")[0].click()
+        $(".collection-m input[type=checkbox]")[0].click()
         console.log('start to sleep 2s')
         await sleep(2000)
         console.log('sleep over')
