@@ -141,7 +141,7 @@ const praise_func = async ()=>{
         if ($(".video-toolbar .like").eq(0).hasClass('on') == false)   //还没被点过赞
         {
             $(".video-toolbar .like")[0].click()
-        }
+        } 
 
         //点击收藏
         $(".video-toolbar .collect")[0].click()
