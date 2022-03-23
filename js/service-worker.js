@@ -5,7 +5,7 @@ bilibili_video_urls = []
 praise_switch = false
 praise_num = 20  //每次点赞的数量
 keyword = "我的世界"  //搜索页的关键词
-const praise_hours = [7, 14, 20]
+const praise_hours = [7, 12, 20]
 
 //上次批量点赞的时间
 last_praise_hour = 12
